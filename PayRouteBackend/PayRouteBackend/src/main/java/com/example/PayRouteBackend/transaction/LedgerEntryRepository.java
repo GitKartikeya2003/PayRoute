@@ -18,7 +18,7 @@ public interface LedgerEntryRepository extends JpaRepository<LedgerEntry, String
 
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("select e from LedgerEntry where e.id=:id")
+    @Query("select e from LedgerEntry e where e.id = :id")
     Optional<LedgerEntry> lockByid(@Param("id") String id);
 
     List<LedgerEntry> findByMerchantIdOrderByCreatedAtDesc(String merchantId);

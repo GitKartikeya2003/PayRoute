@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface SettlementRepository extends JpaRepository<Settlement, String> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("select e from Payment e where e.id=:id")
+    @Query("select e from Settlement e where e.id= :id")
     Optional<Settlement> lockById(@Param("id") String id);
 
     Optional<Settlement> findByMerchantIdAndIdempotencyKey(String m, String k);

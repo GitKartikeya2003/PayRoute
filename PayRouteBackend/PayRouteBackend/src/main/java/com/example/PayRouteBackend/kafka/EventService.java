@@ -1,13 +1,14 @@
 package com.example.PayRouteBackend.kafka;
 
 import com.example.PayRouteBackend.common.Ids;
+import org.springframework.stereotype.Service;
 import tools.jackson.databind.ObjectMapper;
 
 import java.util.Map;
 
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
-
+@Service
 public class EventService {
 
     private final EventRepository eventRepository;

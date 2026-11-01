@@ -50,7 +50,7 @@ public class PaymentService {
 
         Idempotency.validate(key);
         merchantService.lock(merchantId);
-        Payment existing = paymentRepository.findMerchantIdAndIdempotencyKey(merchantId, key).orElse(null);
+        Payment existing = paymentRepository.findByMerchantIdAndIdempotencyKey(merchantId, key).orElse(null);
         if (existing != null) {
 
             if (!existing.orderId.equals(r.orderId())

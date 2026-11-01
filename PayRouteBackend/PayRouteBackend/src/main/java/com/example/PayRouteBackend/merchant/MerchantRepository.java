@@ -15,7 +15,7 @@ public interface MerchantRepository extends JpaRepository<Merchant, String> {
 
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("select e from Merchant e where e.id =: id")
+    @Query("select e from Merchant e where e.id = :id")
     Optional<Merchant> lockById(@Param("id") String id);
 
 

@@ -14,7 +14,7 @@ public interface RefundRepository extends JpaRepository<Refund, String> {
 
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("select e from Refund e where e.id=: id")
+    @Query("select e from Refund e where e.id= :id")
     Optional<Refund> lockById(@Param("id") String id);
 
     Optional<Refund> findByMerchantIdAndIdempotencyKey(String merchantId, String key);

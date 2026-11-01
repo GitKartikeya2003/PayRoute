@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface EventRepository extends JpaRepository<Event, String> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("select e from Events where e.id=: id ")
+    @Query("select e from Event e where e.id = :id")
     Optional<Event> lockById(@Param("id") String id);
 
 
