@@ -4,6 +4,8 @@ package com.example.PayRouteBackend.merchant;
 import com.example.PayRouteBackend.common.ApiException;
 import com.example.PayRouteBackend.common.Ids;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +14,13 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
 public class MerchantService {
 
+    Logger log = LoggerFactory.getLogger(MerchantService.class);
 
     private final MerchantRepository merchantRepository;
 
@@ -59,16 +63,47 @@ public class MerchantService {
         return new MerchantDtos.Registered(merchant, key, merchant.webhookSecret);
     }
 
+
     public Merchant authenticate(String apiKey) {
 
+        log.debug("Starting merchant authentication");
+
         if (apiKey == null || apiKey.isBlank()) {
-            throw new ApiException(HttpStatus.UNAUTHORIZED, "Valid X-API Key is required");
+            log.warn("Authentication failed: API key is missing or blank");
+
+            throw new ApiException(
+                    HttpStatus.UNAUTHORIZED,
+                    "Valid X-API Key is required"
+            );
         }
 
+        long startTime = System.nanoTime();
 
-        return merchantRepository.findByApiKeyHash(hash(apiKey)).orElseThrow(
-                () -> new ApiException(HttpStatus.UNAUTHORIZED, "Invalid X-API Key")
+        Optional<Merchant> merchantOptional =
+                merchantRepository.findByApiKeyHash(hash(apiKey));
+
+        long durationMs =
+                (System.nanoTime() - startTime) / 1_000_000;
+
+        if (merchantOptional.isEmpty()) {
+            log.warn(
+                    "Authentication failed: Invalid API key. Lookup took {} ms",
+                    durationMs
+            );
+            throw new ApiException(
+                    HttpStatus.UNAUTHORIZED,
+                    "Invalid X-API Key"
+            );
+        }
+        Merchant merchant = merchantOptional.get();
+
+        log.info(
+                "Merchant authentication successful. Merchant ID: {}, Lookup took {} ms",
+                merchant.getId(),
+                durationMs
         );
+
+        return merchant;
     }
 
 
@@ -96,7 +131,7 @@ public class MerchantService {
             }
 
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw ApiException.bad("Webhook URL must be HTTP(s) and host in Webhook_hosts");
         }
     }

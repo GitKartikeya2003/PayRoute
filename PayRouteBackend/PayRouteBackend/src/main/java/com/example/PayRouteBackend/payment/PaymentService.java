@@ -86,9 +86,9 @@ public class PaymentService {
     }
 
 
-    public Payment get(String merchantId, String key) {
+    public Payment get(String merchantId, String id) {
 
-        Payment p = paymentRepository.findById(merchantId).orElseThrow(ApiException::missing);
+        Payment p = paymentRepository.findById(id).orElseThrow(ApiException::missing);
 
         if (!p.merchantId.equals(merchantId)) throw ApiException.missing();
         return p;
@@ -118,7 +118,7 @@ public class PaymentService {
 
             p.fee = fee(p.amount);
             orderService.get(m.id, p.orderId).status = "PAID";
-            //ledger.record(m ,p.id,"PAYMENT" ,p.amount-p.fee );
+            ledger.record(m ,p.id,"PAYMENT" ,p.amount-p.fee );
             //event.create();
 
 

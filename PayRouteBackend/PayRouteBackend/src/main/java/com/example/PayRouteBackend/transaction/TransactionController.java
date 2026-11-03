@@ -30,13 +30,13 @@ public class TransactionController {
                               @RequestParam(required = false) String status,
                               @RequestParam(required = false) LocalDate from,
                               @RequestParam(required = false) LocalDate to) {
-        return transactionService.list(key, status, from, to);
+        return transactionService.list(merchantService.authenticate(key).id, status, from, to);
     }
 
 
     @GetMapping("/ledger")
     public List<LedgerEntry> ledger(@RequestHeader("X-Api-Key") String key) {
-        return transactionService.ledger(key);
+        return transactionService.ledger(merchantService.authenticate(key).id);
     }
 
 

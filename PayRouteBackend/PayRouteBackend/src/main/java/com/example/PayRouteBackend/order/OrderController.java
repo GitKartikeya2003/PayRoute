@@ -28,7 +28,7 @@ public class OrderController {
             , @Valid @RequestBody OrderDtos.Create request) {
 
 
-        return orderService.create(key, request);
+        return orderService.create(merchantService.authenticate(key).id, request);
 
     }
 
