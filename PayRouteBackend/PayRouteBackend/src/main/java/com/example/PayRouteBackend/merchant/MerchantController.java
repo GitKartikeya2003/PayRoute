@@ -18,7 +18,7 @@ public class MerchantController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MerchantDtos.Registered register(@RequestBody MerchantDtos.Register r) {
+    public MerchantDtos.Registered register(@Valid @RequestBody MerchantDtos.Register r) {
 
         return merchantService.register(r);
     }

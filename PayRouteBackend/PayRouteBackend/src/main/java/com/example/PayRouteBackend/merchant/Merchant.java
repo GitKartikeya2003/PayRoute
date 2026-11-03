@@ -24,7 +24,7 @@ public class Merchant extends BaseEntity{
     public String webhookSecret;
 
 
-    @Column(nullable = false , length = 64)
+    @Column(length = 64)
     public String webhookUrl;
 
     @Column(nullable = false)

@@ -44,7 +44,7 @@ public class ErrorHandler {
     }
 
     @ExceptionHandler(value = DataIntegrityViolationException.class)
-    ResponseEntity<?> duplicate(ApiException e) {
+    ResponseEntity<?> duplicate(DataIntegrityViolationException e) {
 
         return ResponseEntity.status(409).body(Map.of("message","duplicate or conflict"));
     }
