@@ -118,13 +118,14 @@ public class PaymentService {
 
             p.fee = fee(p.amount);
             orderService.get(m.id, p.orderId).status = "PAID";
-            ledger.record(m ,p.id,"PAYMENT" ,p.amount-p.fee );
-            //event.create();
+            ledger.record(m, p.id, "PAYMENT", p.amount - p.fee);
+
+            event.create(m.id, "payment.succeeded", p.id, p.amount);
 
 
         } else if (status.equals("FAILED")) {
 
-            //event
+            event.create(m.id, "payment.failed", p.id, p.amount);
         }
     }
 

@@ -23,6 +23,7 @@ public class KafkaConfig {
     }
 
 
+    @Bean
     DefaultErrorHandler kafkaErrorHandler() {
 
         return new DefaultErrorHandler(new FixedBackOff(2000L, FixedBackOff.UNLIMITED_ATTEMPTS));

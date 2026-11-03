@@ -6,7 +6,7 @@ import tools.jackson.databind.ObjectMapper;
 
 import java.util.Map;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+//import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 public class EventService {
@@ -31,7 +31,7 @@ public class EventService {
 
             e.payload = json.writeValueAsString(
                     Map.of(
-                            "id", id,
+                            "id", e.id,
                             "type", type,
                             "merchantId", merchantId,
                             "referenceId", referenceId,

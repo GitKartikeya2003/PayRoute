@@ -21,15 +21,18 @@ public class RefundService {
     private final RefundRepository refundRepository;
     private final MerchantService merchantService;
     private final PaymentService paymentService;
-   // private final EventService eventService;
+    private final EventService event;
     private final LedgerService ledgerService;
 
 
-    public RefundService(RefundRepository refundRepository, MerchantService merchantService, PaymentService paymentService, EventService eventService, LedgerService ledgerService) {
+    public RefundService(RefundRepository refundRepository
+            , MerchantService merchantService, PaymentService paymentService
+            , EventService event, LedgerService ledgerService) {
+
         this.refundRepository = refundRepository;
         this.merchantService = merchantService;
         this.paymentService = paymentService;
-       // this.eventService = eventService;
+        this.event = event;
         this.ledgerService = ledgerService;
     }
 
@@ -84,6 +87,7 @@ public class RefundService {
         p.refunded = after;
         refundRepository.save(r);
         ledgerService.record(merchant, r.id, "REFUND", -debit);
+        event.create(merchantId, "refund.succeeded", r.id, r.amount);
         return r;
 
     }

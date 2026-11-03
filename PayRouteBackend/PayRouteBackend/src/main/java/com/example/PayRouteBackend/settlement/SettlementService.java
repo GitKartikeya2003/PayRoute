@@ -3,6 +3,7 @@ package com.example.PayRouteBackend.settlement;
 import com.example.PayRouteBackend.common.ApiException;
 import com.example.PayRouteBackend.common.Idempotency;
 import com.example.PayRouteBackend.common.Ids;
+import com.example.PayRouteBackend.kafka.EventService;
 import com.example.PayRouteBackend.merchant.Merchant;
 import com.example.PayRouteBackend.merchant.MerchantService;
 import com.example.PayRouteBackend.transaction.LedgerService;
@@ -17,12 +18,14 @@ public class SettlementService {
 
     private final MerchantService merchants;
     private final LedgerService ledger;
+    private final EventService event;
 
 
-    public SettlementService(SettlementRepository repo, MerchantService merchants, LedgerService ledger) {
+    public SettlementService(SettlementRepository repo, MerchantService merchants, LedgerService ledger, EventService event) {
         this.repo = repo;
         this.merchants = merchants;
         this.ledger = ledger;
+        this.event = event;
     }
 
 
@@ -39,6 +42,7 @@ public class SettlementService {
         s.amount = merchant.balance;
         repo.save(s);
         ledger.record(merchant, s.id, "SETTLEMENT", -s.amount);
+        event.create(m, "settlement.created", s.id, s.amount);
         return s;
     }
 

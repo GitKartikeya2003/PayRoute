@@ -32,7 +32,7 @@ public class OutBoxPublisher {
             return;
         }
 
-        kafka.send(KafkaConfig.TOPIC, e.merchantId, e.merchantId)
+        kafka.send(KafkaConfig.TOPIC, e.merchantId, e.id)
                 .get(12, TimeUnit.SECONDS);
 
         e.publishedAt = Instant.now();
