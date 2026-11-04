@@ -32,7 +32,7 @@ public class Merchant extends BaseEntity{
     public String webhookSecret;
 
 
-    @Column(length = 64)
+    @Column(length = 500)
     public String webhookUrl;
 
     @Column(nullable = false)

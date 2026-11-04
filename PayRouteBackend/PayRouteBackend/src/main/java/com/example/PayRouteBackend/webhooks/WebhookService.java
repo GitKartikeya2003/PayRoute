@@ -101,6 +101,7 @@ public class WebhookService {
         w.attempts = 0;
         w.nextAttemptAt = Instant.now();
         w.lastError = null;
+        deliver(w.id);
         return w;
     }
 

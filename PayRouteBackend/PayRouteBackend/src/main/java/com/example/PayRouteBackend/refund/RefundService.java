@@ -11,6 +11,7 @@ import com.example.PayRouteBackend.payment.Payment;
 import com.example.PayRouteBackend.payment.PaymentService;
 import com.example.PayRouteBackend.transaction.LedgerService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -36,7 +37,7 @@ public class RefundService {
         this.ledgerService = ledgerService;
     }
 
-
+    @Transactional
     public Refund create(String merchantId, String key, RefundDtos.Create request) {
 
 

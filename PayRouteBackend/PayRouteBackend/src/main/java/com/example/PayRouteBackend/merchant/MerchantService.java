@@ -6,6 +6,7 @@ import com.example.PayRouteBackend.common.Ids;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -26,10 +27,12 @@ public class MerchantService {
 
     private final Set<String> allowedHosts;
 
-    public MerchantService(MerchantRepository merchantRepository, Set<String> allowedHosts) {
+    public MerchantService(
+            MerchantRepository merchantRepository,
+            @Value("${app.webhook-hosts:localhost,127.0.0.1,backend}") Set<String> allowedHosts
+    ) {
         this.merchantRepository = merchantRepository;
         this.allowedHosts = allowedHosts;
-
     }
 
     public static String hash(String value) {

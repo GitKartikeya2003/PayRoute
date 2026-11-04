@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-@ConditionalOnProperty(name="app.jobs-enabled",havingValue = "true")
+@ConditionalOnProperty(name = "app.jobs-enabled", havingValue = "true")
 public class BankJobs {
 
     private final PaymentService paymentService;
@@ -20,8 +20,8 @@ public class BankJobs {
         this.paymentRepositor = paymentRepositor;
     }
 
-    @Scheduled (fixedRate = 3000)
-    public void completeDelayed(){
+    @Scheduled(fixedRate = 3000)
+    public void completeDelayed() {
 
     }
 }

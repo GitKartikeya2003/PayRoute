@@ -18,7 +18,7 @@ public class Webhook extends BaseEntity {
     @Column(nullable = false, length = 48)
     public String merchantId;
 
-    @Column(length = 48)
+    @Column(length = 500)
     public String url;
 
     @Column(nullable = false, length = 20)

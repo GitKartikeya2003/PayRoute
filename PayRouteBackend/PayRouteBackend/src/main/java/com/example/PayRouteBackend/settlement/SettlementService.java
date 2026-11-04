@@ -7,6 +7,7 @@ import com.example.PayRouteBackend.kafka.EventService;
 import com.example.PayRouteBackend.merchant.Merchant;
 import com.example.PayRouteBackend.merchant.MerchantService;
 import com.example.PayRouteBackend.transaction.LedgerService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class SettlementService {
         this.event = event;
     }
 
-
+    @Transactional
     public Settlement create(String m, String key) {
         Idempotency.validate(key);
         Merchant merchant = merchants.lock(m);

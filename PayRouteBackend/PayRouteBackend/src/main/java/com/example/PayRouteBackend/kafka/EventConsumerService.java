@@ -29,12 +29,12 @@ public class EventConsumerService {
 
 
     @Transactional
-    public void consume(String id) {
+    public String consume(String id) {
 
 
         Event event = eventRepository.findById(id).orElseThrow();
 
-        if(event.consumedAt!= null) return;
+        if(event.consumedAt!= null) return null;
 
         Merchant m = merchantRepository.findById(event.merchantId).orElseThrow();
 
@@ -52,6 +52,7 @@ public class EventConsumerService {
 
         webhooks.save(w);
         event.consumedAt = Instant.now();
+        return w.status.equals("PENDING") ? w.id : null;
 
 
     }
