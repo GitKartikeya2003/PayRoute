@@ -49,7 +49,7 @@ public class RefundService {
 
         if (old != null) {
 
-            if (old.paymentID.equals(request.paymentId()) || old.amount != request.amount()) {
+            if (!old.paymentID.equals(request.paymentId()) || old.amount != request.amount()) {
 
                 throw ApiException.conflict("Idempotency key reused with different refund");
             }

@@ -25,8 +25,8 @@ public interface PaymentRepository extends JpaRepository<Payment, String> {
     boolean existsByOrderIdAndStatusIn(String orderId, List<String> statuses);
 
 
-//    List<Payment> findTop50ByStatusAndScenarioAndResolveAtBeforeOrderByCreatedAtAsc(
-//            String status, String scenario, Instant now);
+    List<Payment> findTop50ByStatusAndScenarioAndResolveAtBeforeOrderByCreatedAtAsc(
+            String status, String scenario, Instant now);
 
 
 }
